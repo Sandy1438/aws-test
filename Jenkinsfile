@@ -7,12 +7,12 @@ pipeline{
     stages{
         stage("Terraform Initialization"){
             steps{
+                def tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
+                env.Path = "${tfHome};${env.Path}"
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    def tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
-                    env.Path = "${tfHome};${env.Path}"
                     sh 'terraform init'
                 }
             }
