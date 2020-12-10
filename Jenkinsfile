@@ -12,10 +12,9 @@ pipeline{
         stage("Terraform Initialization"){
             steps{
                 steps{
-                    script{
-                        withEnv(['"BACKEND=${env.BACKEND}"', '"AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}"', '"AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}"']) {
-                           sh 'terraform init -backend-config=access_key=${env.AWS_ACCESS_KEY_ID}  -backend-config=secret_key=${env.AWS_SECRET_ACCESS_KEY}'
-}
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWS_4_TERRAFORM', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh 'terraform init -backend-config=access_key=$AWS_ACCESS_KEY_ID  -backend-config=secret_key=$AWS_SECRET_ACCESS_KEY'
+                        }
                     }
                 }
             }
