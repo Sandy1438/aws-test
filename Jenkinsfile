@@ -7,11 +7,11 @@ pipeline{
     stages{
         stage("Terraform Initialization"){
             steps{
-                tool name: 'TERRAFORM_PKG', type: 'terraform'
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    tool name: 'TERRAFORM_PKG', type: 'terraform'
                     sh 'terraform init'
                 }
             }
