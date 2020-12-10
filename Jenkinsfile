@@ -13,7 +13,9 @@ pipeline{
             steps{
                 steps{
                     script{
-                        terraform init "env.BACKEND=access_key=env.AWS_ACCESS_KEY_ID  env.BACKEND=secret_key=env.AWS_SECRET_ACCESS_KEY"
+                        withEnv(['"BACKEND=${env.BACKEND}"', '"AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}"', '"AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}"']) {
+                           sh 'terraform init -backend-config=access_key=${env.AWS_ACCESS_KEY_ID}  -backend-config=secret_key=${env.AWS_SECRET_ACCESS_KEY}'
+}
                     }
                 }
             }
@@ -30,7 +32,7 @@ pipeline{
         stage("Terraform apply"){
             steps{
                 script{
-                    terraform apply -auto-approve
+                    terraform apply auto-approve
                 }
             }
         }  
