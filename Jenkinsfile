@@ -1,4 +1,6 @@
 String credentialsId = 'AWS_4_TERRAFORM'
+def tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
+env.Path = "${tfHome};${env.Path}"
 
 pipeline{
 
@@ -11,10 +13,7 @@ pipeline{
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    tools {
-                        terraform 'TERRAFORM_PKG'
                         sh 'terraform init'
-                    }
                 }
             }
         }
