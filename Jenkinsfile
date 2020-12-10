@@ -3,8 +3,8 @@ pipeline{
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_KEY')
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         BACKEND = "backend-config"
     }
 
@@ -13,7 +13,7 @@ pipeline{
             steps{
                 steps{
                     script{
-                        withEnv(['"BACKEND=${env.BACKEND}"', '"AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY}"', '"AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_KEY}"']) {
+                        withEnv(['"BACKEND=${env.BACKEND}"', '"AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}"', '"AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}"']) {
                            sh 'terraform init -backend-config=access_key=${env.AWS_ACCESS_KEY_ID}  -backend-config=secret_key=${env.AWS_SECRET_ACCESS_KEY}'
 }
                     }
