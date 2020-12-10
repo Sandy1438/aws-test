@@ -6,6 +6,12 @@ pipeline{
 
     agent any
 
+    environment{
+        String credentialsId = 'AWS_4_TERRAFORM'
+        tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
+        env.Path = "${tfHome};${env.Path}"
+    }
+
     stages{
         stage("Terraform Initialization"){
             steps{
@@ -13,7 +19,7 @@ pipeline{
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        sh 'terraform init'
+                        sh '${env.Path}/terraform init'
                 }
             }
         }
