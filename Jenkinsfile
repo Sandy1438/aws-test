@@ -1,13 +1,10 @@
 String credentialsId = 'AWS_4_TERRAFORM'
-def tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
-env.Path = "${tfHome};${env.Path}"
 
 pipeline{
 
     agent any
 
     environment{
-        String credentialsId = 'AWS_4_TERRAFORM'
         tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
         env.Path = "${tfHome};${env.Path}"
     }
