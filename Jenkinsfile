@@ -6,8 +6,7 @@ pipeline{
     agent any
 
     environment{
-     #   tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
-     #   env.Path = "${tfHome};${env.Path}"
+
     }
 
     stages{
