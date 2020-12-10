@@ -18,15 +18,21 @@ pipeline{
 
         stage("Terraform plan"){
             steps{
-                script{
-                    terraform plan
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                credentialsId: 'AWS_4_TERRAFORM', 
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh 'terraform plan'
                 }
             }
         }
 
         stage("Terraform apply"){
             steps{
-                script{
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                credentialsId: 'AWS_4_TERRAFORM', 
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {               
                     terraform apply auto-approve
                 }
             }
