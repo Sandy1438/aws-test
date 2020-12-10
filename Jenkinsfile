@@ -12,7 +12,7 @@ pipeline{
             steps{
                 steps{
                     script{
-                        terraform init -backend-config="access_key=${params.AWS_ACCESS_KEY_ID}"  -backend-config="secret_key=${params.AWS_SECRET_ACCESS_KEY}"
+                        terraform init backend-config="access_key=${params.AWS_ACCESS_KEY_ID}"  backend-config="secret_key=${params.AWS_SECRET_ACCESS_KEY}"
                     }
                 }
             }
