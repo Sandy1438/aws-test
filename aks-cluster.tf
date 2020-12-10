@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.regin
+  region = var.regin
 }
 
 /*resource "aws_s3_bucket" "terraform_state" {
@@ -53,13 +53,13 @@ data "aws_subnet_ids" "subnet_id" {
 
 resource "aws_vpc" "vpc" {
   #name = "love-bonito"
-  cidr_block = var.vpc
+  cidr_block       = var.vpc
   instance_tenancy = "default"
 }
 
 resource "aws_subnet" "subnet" {
-  for_each = var.subnet
-  vpc_id = aws_vpc.vpc.id
+  for_each   = var.subnet
+  vpc_id     = aws_vpc.vpc.id
   cidr_block = each.value
 }
 
@@ -75,15 +75,15 @@ module "love-bonito-k8cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "love-bonito-k8cluster"
   cluster_version = "1.18"
-  subnets = data.aws_subnet_ids.subnet_id.ids
+  subnets         = tolist(data.aws_subnet_ids.subnet_id.ids)
   vpc_id          = aws_vpc.vpc.id
 
   node_groups = [
     {
-      instance_type = "t2.micro"
-      max_capacity  = 5
+      instance_type    = "t2.micro"
+      max_capacity     = 5
       desired_capacity = 2
-      min_capacity  = 2
+      min_capacity     = 2
     }
   ]
   write_kubeconfig   = true
