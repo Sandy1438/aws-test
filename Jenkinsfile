@@ -5,10 +5,6 @@ pipeline{
 
     agent any
 
-    environment{
-
-    }
-
     stages{
         stage("Terraform Initialization"){
             steps{
