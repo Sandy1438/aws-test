@@ -1,12 +1,13 @@
 String credentialsId = 'AWS_4_TERRAFORM'
+def tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
 
 pipeline{
 
     agent any
 
     environment{
-        tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
-        env.Path = "${tfHome};${env.Path}"
+     #   tfHome = tool name: 'TERRAFORM_PKG', type: 'terraform'
+     #   env.Path = "${tfHome};${env.Path}"
     }
 
     stages{
@@ -16,7 +17,7 @@ pipeline{
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        sh '${env.Path}/terraform init'
+                        sh "${env.Path}/terraform init"
                 }
             }
         }
