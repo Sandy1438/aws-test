@@ -3,7 +3,7 @@ variable "vpc" {
   default = "10.0.0.0/16"
 }
 
-locals "az-subnet" {
+locals {
   az-subnet = {
     az-subnet1 = {
       private_love-bonito_cidr = "10.0.1.0/24"
