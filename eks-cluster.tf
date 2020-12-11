@@ -64,7 +64,7 @@ resource "aws_subnet" "subnet" {
   cidr_block = each.value.private_love-bonito_cidr
 
   tags = {
-    "kubernetes.io/cluster/${module.love-bonito-k8cluster.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
   }
 }
 
@@ -78,7 +78,7 @@ provider "kubernetes" {
 
 module "love-bonito-k8cluster" {
   source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = "love-bonito-k8cluster"
+  cluster_name    = var.eks-cluster-name
   cluster_version = "1.18"
   subnets         = tolist(data.aws_subnet_ids.subnet_id.ids)
   vpc_id          = aws_vpc.vpc.id
