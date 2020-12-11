@@ -58,9 +58,14 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_subnet" "subnet" {
-  for_each   = var.subnet
+  for_each   = local.az-subnet
   vpc_id     = aws_vpc.vpc.id
-  cidr_block = each.value
+  availability_zone = each.value.az
+  cidr_block = each.value.private_love-bonito_cidr
+
+  tags = {
+    "kubernetes.io/cluster/${module.love-bonito-k8cluster.cluster_name}" = "shared"
+  }
 }
 
 provider "kubernetes" {
