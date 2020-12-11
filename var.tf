@@ -11,7 +11,7 @@ locals {
     }
     az-subnet2 = {
       private_love-bonito_cidr = "10.0.2.0/24"
-      az = "ap-east-1"
+      az = "ap-south-1b"
     }
   }
 }
