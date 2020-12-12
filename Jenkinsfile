@@ -22,7 +22,7 @@ pipeline{
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    sh 'terraform plan'
+                    sh 'terraform refresh'
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline{
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 credentialsId: 'AWS_4_TERRAFORM', 
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {               
-                   sh 'terraform apply -auto-approve'
+                   sh 'terraform destroy -auto-approve'
                 }
             }
         }  
