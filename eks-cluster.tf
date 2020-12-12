@@ -78,6 +78,7 @@ provider "kubernetes" {
 
 module "love-bonito-k8cluster" {
   source          = "terraform-aws-modules/eks/aws"
+  version = "13.2.0"
   cluster_name    = var.eks-cluster-name
   cluster_version = "1.18"
   subnets         = tolist(data.aws_subnet_ids.subnet_id.ids)
@@ -86,7 +87,7 @@ module "love-bonito-k8cluster" {
   node_groups = [
     {
       instance_type    = "t2.micro"
-      max_capacity     = 5
+      max_capacity     = 4
       desired_capacity = 3
       min_capacity     = 3
     }
