@@ -82,7 +82,7 @@ provider "kubernetes" {
   version                = "~> 1.9"
 }
 
-module "love-bonito-k8cluster" {
+module "love-bonito-k8clusters" {
   source          = "terraform-aws-modules/eks/aws"
   version = "13.2.0"
   cluster_name    = var.eks-cluster-name
