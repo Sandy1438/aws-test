@@ -64,6 +64,7 @@ resource "aws_subnet" "subnet" {
   cidr_block = each.value.private_love-bonito_cidr
   map_public_ip_on_launch = true
   enable_nat_gateway   = true
+  single_nat_gateway   = true
 
   tags = {
     "Name" = "eks_subnets"
@@ -92,6 +93,8 @@ module "love-bonito-k8cluster" {
 
   node_groups = [
     {
+      instance_name = "eks_workerNode"
+      instance_type = "t2.micro"
       max_capacity     = 2
       desired_capacity = 1
       min_capacity     = 1
