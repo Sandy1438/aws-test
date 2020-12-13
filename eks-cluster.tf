@@ -70,7 +70,7 @@ resource "aws_subnet" "subnet" {
     "Name" = "eks_subnets"
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
     "kubernetes.io/role/internal-elb" = 1
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
 }
@@ -93,6 +93,7 @@ module "love-bonito-k8cluster" {
 
   node_groups = [
     {
+      instance_name = "eks_worker"
       instance_type = "t2.micro"
       max_capacity     = 2
       desired_capacity = 1
