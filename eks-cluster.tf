@@ -59,10 +59,6 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
-
-  tags = {
-   "Name" = "eks_int_gw"
-  }
 }
 
 resource "aws_subnet" "subnet" {
