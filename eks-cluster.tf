@@ -98,7 +98,7 @@ resource "aws_route_table" "route" {
 }
 
 resource "aws_route_table_association" "route_link" {
-  subnet_id = tolist(data.aws_subnet_ids.subnet_id.ids)
+  subnet_id = data.aws_subnet_ids.subnet_id.ids
   route_table_id = aws_route_table.route.id
 }
 
