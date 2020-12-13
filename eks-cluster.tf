@@ -89,9 +89,8 @@ module "love-bonito-k8cluster" {
 
   node_groups = [
     {
-      instance_type    = "t2.micro"
       max_capacity     = 2
-      desired_capacity = 2
+      desired_capacity = 1
       min_capacity     = 1
     }
   ]
