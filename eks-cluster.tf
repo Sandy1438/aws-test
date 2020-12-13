@@ -102,10 +102,6 @@ resource "aws_route_table_association" "route_link" {
 
   subnet_id      = aws_subnet.subnet.*.id[count.index]
   route_table_id = aws_route_table.route.id
-
-  tags = {
-      "Name" = "eks_route_link"
-  }
 }
 
 provider "kubernetes" {
