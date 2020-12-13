@@ -93,7 +93,6 @@ module "love-bonito-k8cluster" {
 
   node_groups = [
     {
-      instance_name = "eks_workerNode"
       instance_type = "t2.micro"
       max_capacity     = 2
       desired_capacity = 1
