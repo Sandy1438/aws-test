@@ -71,8 +71,6 @@ resource "aws_subnet" "subnet" {
   availability_zone = each.value.az
   cidr_block = each.value.private_love-bonito_cidr
   map_public_ip_on_launch = true
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
 
   tags = {
     "Name" = "eks_subnets"
