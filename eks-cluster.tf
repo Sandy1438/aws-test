@@ -98,7 +98,8 @@ resource "aws_route_table" "route" {
 }
 
 resource "aws_route_table_association" "route_link" {
-  subnet_id = aws_subnet.subnet.subnet_id
+  for_each = aws_subnet.subnet
+  subnet_id = aws_subnet.subnet[each.key.subnet_id]
   route_table_id = aws_route_table.route.id
 }
 
