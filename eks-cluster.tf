@@ -11,6 +11,8 @@ provider "aws" {
   region = var.regin
 }
 
+provider "http" {}
+
 /*resource "aws_s3_bucket" "terraform_state" {
   bucket = "love-bonito-bucket"
   #acl    = "private"
@@ -40,47 +42,15 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "love-bonito-bucket"
-    key    = "terraform-aws/terraform.tfstate"
+    key    = "terraform-eks/terraform.tfstate"
     region = "ap-south-1"
     #dynamodb_table = "terraform-state-locks"
     #encrypt        = true
   }
 }
 
-resource "aws_vpc" "vpc" {
-  #name = "love-bonito"
-  cidr_block       = var.vpc
-  instance_tenancy = "default"
-
-  tags = {
-    "Name" = "eks_vpc"
-  }
-}
-
-resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.vpc.id
-
-  tags = {
-  "Name" = "eks_int_gw"
-  }
-}
-
-resource "aws_subnet" "subnet" {
-  for_each   = local.az-subnet
-  vpc_id     = aws_vpc.vpc.id
-  availability_zone = each.value.az
-  cidr_block = each.value.private_love-bonito_cidr
-  map_public_ip_on_launch = true
-
-  depends_on = [aws_internet_gateway.gw]
-
-  tags = {
-    "Name" = "eks_subnets"
-    "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
-    "kubernetes.io/role/internal-elb" = 1
-    "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
-    "kubernetes.io/role/elb"                      = 1
-  }  
+module "vpc" {
+  source = module/vpc
 }
 
 provider "kubernetes" {
@@ -97,14 +67,14 @@ module "love-bonito-k8cluster" {
   cluster_name    = var.eks-cluster-name
   cluster_version = "1.18"
   subnets         = tolist(data.aws_subnet_ids.subnet_id.ids)
-  vpc_id          = aws_vpc.vpc.id
+  vpc_id          = module.vpc.id
 
   node_groups = [
     {
       instance_name = "eks_worker"
       instance_type = "t2.micro"
-      max_capacity     = 2
-      desired_capacity = 1
+      max_capacity     = 5
+      desired_capacity = 3
       min_capacity     = 1
     }
   ]
@@ -114,10 +84,10 @@ module "love-bonito-k8cluster" {
 
 
 data "aws_subnet_ids" "subnet_id" {
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = module.vpc.id
 
   depends_on = [ 
-    aws_subnet.subnet
+    module.vpc.subnet
    ]
 }
 
