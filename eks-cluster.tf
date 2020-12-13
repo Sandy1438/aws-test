@@ -63,11 +63,14 @@ resource "aws_subnet" "subnet" {
   availability_zone = each.value.az
   cidr_block = each.value.private_love-bonito_cidr
   map_public_ip_on_launch = true
+  enable_nat_gateway   = true
 
   tags = {
     "Name" = "eks_subnets"
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
     "kubernetes.io/role/internal-elb" = 1
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
   }
 }
 
@@ -89,8 +92,10 @@ module "love-bonito-k8cluster" {
 
   node_groups = [
     {
+      name = "eks_workerNode"
+      instance_type = "t2.micro"
       max_capacity     = 2
-      desired_capacity = 1
+      desired_capacity = 2
       min_capacity     = 1
     }
   ]
@@ -101,6 +106,10 @@ module "love-bonito-k8cluster" {
 
 data "aws_subnet_ids" "subnet_id" {
   vpc_id = aws_vpc.vpc.id
+
+  depends_on = [ 
+    aws_subnet.subnet
+   ]
 }
 
 data "aws_eks_cluster" "cluster" {
