@@ -65,6 +65,7 @@ resource "aws_subnet" "subnet" {
 
   tags = {
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
+    "kubernetes.io/role/internal-elb" = 1
   }
 }
 
