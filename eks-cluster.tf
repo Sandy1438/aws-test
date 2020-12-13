@@ -72,15 +72,15 @@ resource "aws_subnet" "subnet" {
   cidr_block = each.value.private_love-bonito_cidr
   map_public_ip_on_launch = true
 
+  depends_on = [aws_internet_gateway.gw]
+  }
+
   tags = {
     "Name" = "eks_subnets"
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
     "kubernetes.io/role/internal-elb" = 1
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
-    "kubernetes.io/role/elb"                      = "1"
-
-  depends_on = [aws_internet_gateway.gw]
-  }
+    "kubernetes.io/role/elb"                      = 1
 }
 
 provider "kubernetes" {
