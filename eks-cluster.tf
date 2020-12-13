@@ -57,6 +57,14 @@ resource "aws_vpc" "vpc" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+   "Name" = "eks_int_gw"
+  }
+}
+
 resource "aws_subnet" "subnet" {
   for_each   = local.az-subnet
   vpc_id     = aws_vpc.vpc.id
@@ -72,6 +80,8 @@ resource "aws_subnet" "subnet" {
     "kubernetes.io/role/internal-elb" = 1
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
+
+  depends_on = [aws_internet_gateway.gw]
   }
 }
 
